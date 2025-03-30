@@ -172,7 +172,7 @@
         progressText.textContent = "Translation in progress...";
 
         try {
-          const response = await axios.post("http://localhost:8001/translate", {
+          const response = await axios.post("http://localhost:8000/translate", {
             text: text,
             languages: languages,
           });
@@ -190,13 +190,13 @@
           while (progress < 100) {
             await new Promise((resolve) => setTimeout(resolve, 1000));
             const resultResponse = await axios.get(
-              `http://localhost:8001/translate/${taskId}`
+              `http://localhost:8000/translate/${taskId}`
             );
             translationResult = resultResponse.data;
             if (translationResult === "completed") {
               progress = 100;
             } else {
-              progress.style.width = "50%";
+              progress +=20;
             }
           }
 
@@ -218,10 +218,10 @@
         const id = document.getElementById("search-id").value;
         try {
           const response = await axios.get(
-            `http://localhost:8001/translate/${id}`
+            `http://localhost:8000/translate/${id}`
           );
           const translationResult = response.data;
-          document.getElementById("tranlationResults").textContent =
+          document.getElementById("translationResults").textContent =
             JSON.stringify(translationResult.translations, null, 2);
           document.getElementById("results").style.display = "block";
 
@@ -239,7 +239,7 @@
 
         try {
           const response = await axios.get(
-            `http://localhost:8001/translate/content/${id}`
+            `http://localhost:8000/translate/content/${id}`
           );
           const contentResult = response.data;
 
